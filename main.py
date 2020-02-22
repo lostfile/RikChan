@@ -444,8 +444,8 @@ def board_home(board):
 	if request.method == "POST" and not is_banned(request.remote_addr):
 	#if request.method == "POST" and not is_banned(request.headers['X-Real-IP']):
 		#print(request.files)
-		if request.form["body"]=="":
-			return redirect(url_for("index"))
+		#if request.form["body"]=="":
+		#	return redirect(url_for("index"))
 		f = None
 		if bo:
 			t = None
@@ -456,6 +456,10 @@ def board_home(board):
 				file_name = secure_filename(file.filename)
 				#print("FILE FOUND")
 				#print(file_name)
+				if not allowed(file_name)[0]:
+					print("yay")
+					if request.form["body"]=="":
+						return redirect(url_for("index"))
 				if allowed(file_name)[0]:
 					if allowed(file_name)[1] == "gif":
 						med = Media.query.filter_by(board=board).all()[0]
@@ -551,8 +555,7 @@ def board_thread(board , thread_id):
 	if request.method == "POST" and not is_banned(request.remote_addr):
 	#if request.method == "POST" and not is_banned(request.headers['X-Real-IP']):
 		#print(request.files)
-		if request.form["body"]=="":
-			return redirect(url_for("index"))
+		
 		f = None
 		if thread:
 			log(board , bo.last_id + 1 , request.remote_addr)
@@ -562,6 +565,10 @@ def board_thread(board , thread_id):
 				file_name = secure_filename(file.filename)
 				#print("FILE FOUND")
 				#print(file_name)
+				if not allowed(file_name)[0]:
+					if request.form["body"]=="":
+						return redirect(url_for("index"))
+
 				if allowed(file_name)[0]:
 					if allowed(file_name)[1] == "gif":
 						med = Media.query.filter_by(board=board).all()[0]
