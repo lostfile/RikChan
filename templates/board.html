@@ -127,6 +127,12 @@ video {
 
         </br>
              <p>{{green(t.body , board) | safe}}</p>
+           
+           {%if len(Post.query.filter_by(board=board).filter_by(thread_id = t.id).all()) > bo.max_posts_displayed %}
+           
+           <font size=2>{{len(Post.query.filter_by(board=board).filter_by(thread_id = t.id).all()) - bo.max_posts_displayed}} reply/replies hidden, click Reply to view all</font>
+
+           {%endif%}
         
       
 
