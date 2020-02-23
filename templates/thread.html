@@ -38,13 +38,13 @@
 
 div.transbox {
   background-color:#F1E0D7 ;
- 
+
   overflow-wrap: break-word;
 
   max-width: 80%;
   min-width: 50%;
      /* For IE8 and earlier */
-     
+
 
     display: inline;
     display: inline-block;
@@ -52,7 +52,7 @@ div.transbox {
 
 div.transboxx {
   background-color: #FFFFF0;
-  
+
   overflow-wrap: break-word;
 
 
@@ -89,8 +89,8 @@ video {
 
     if(document.getElementById(id).style.width=="500px"){document.getElementById(id).style.width="150px";}else{document.getElementById(id).style.width="500px"}
 
-    
-    }       
+
+    }
 </script>
 
 
@@ -104,11 +104,11 @@ video {
                     <span class="left"><img src="/media/{{board}}{{thread.img_num}}.{{thread.img_ext}}" alt="{{thread.img_name}}" id="{{board}}{{thread.img_num}}.{{thread.img_ext}}" onclick="zoomzoom('{{board}}{{thread.img_num}}.{{thread.img_ext}}')"></br></span>
                 {%else%}
                 <a href="/media/{{board}}{{thread.img_num}}.{{thread.img_ext}}">
-                    {{t.img_name}}</a></br>
+                    {{thread.img_name}}</a></br>
                 <span class="left"><video width="320" height="240" controls>
-  
-                  <source src="../media/{{board}}{{thread.img_num}}.{{thread.img_ext}}" type="video/webm">
-  
+
+                  <source src="/media/{{board}}{{thread.img_num}}.{{thread.img_ext}}" type="video/webm">
+
                </video></br></span>
                 {%endif%}
             {%endif%}
@@ -127,20 +127,20 @@ video {
 
         </br>
         <p>{{green(thread.body , board) | safe}}</br></p>
-          
+
 
         </body>
 
 
-   
+
    </div>
 
 
 {%for p in posts%}
 <span class="left">&gt;&gt;</span>
-   
+
   <div class="transbox">
-    <section id="{{p.id}}">
+      <section id="{{p.id}}">
 
 
           <span class="left"><input type="checkbox" name="{{p.id}}" value="POST"></span>
@@ -165,20 +165,20 @@ video {
                     <img src="/media/{{board}}{{p.img_num}}.{{p.img_ext}}" alt="{{p.img_name}}" id="{{board}}{{p.img_num}}.{{p.img_ext}}" onclick="zoomzoom('{{board}}{{p.img_num}}.{{p.img_ext}}')"></br></br>
                 {%else%}
                 <video width="320" height="240" controls>
-  
+
                   <source src="/media/{{board}}{{p.img_num}}.{{p.img_ext}}" type="video/webm">
-  
+
                </video></br></br>
                 {%endif%}
             {%endif%}
 
           {{green(p.body , board) | safe}}</br></p>
-          
 
 
 
 
-  
+
+
    </div>
 </br>
 </br>

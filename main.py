@@ -457,7 +457,6 @@ def board_home(board):
 				#print("FILE FOUND")
 				#print(file_name)
 				if not allowed(file_name)[0]:
-					print("yay")
 					if request.form["body"]=="":
 						return redirect(url_for("index"))
 				if allowed(file_name)[0]:
@@ -531,10 +530,10 @@ def board_home(board):
 			db.session.add(t)
 			db.session.commit()
 
-			return render_template("board.html" ,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,bo=bo, gen=gen , Post = Post, board = board , desc = bo.desc , threads = Thread.query.filter_by(board=board).order_by(desc(Thread.bumptime)).all())
+			return render_template("board.html" ,len=len,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,bo=bo, gen=gen , Post = Post, board = board , desc = bo.desc , threads = Thread.query.filter_by(board=board).order_by(desc(Thread.bumptime)).all())
 
 	if bo:
-		return render_template("board.html" ,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,bo=bo,gen=gen ,Post = Post, board = board , desc = bo.desc , threads = Thread.query.filter_by(board=board).order_by(desc(Thread.bumptime)).all())
+		return render_template("board.html" ,len=len,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,bo=bo,gen=gen ,Post = Post, board = board , desc = bo.desc , threads = Thread.query.filter_by(board=board).order_by(desc(Thread.bumptime)).all())
 	else:
 		return "e404"
 
