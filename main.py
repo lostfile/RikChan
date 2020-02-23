@@ -29,7 +29,7 @@ app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 db = SQLAlchemy(app)
 
 def gen(N):
-	return ''.join(secrets.choice(string.ascii_uppercase + string.digits) for i in range(N)) 
+	return ''.join(secrets.choice(string.ascii_uppercase + string.digits) for i in range(N))
 
 class Thread(db.Model):
 	uni = db.Column(db.String(100) , primary_key = True)
@@ -44,7 +44,7 @@ class Thread(db.Model):
 	body = db.Column(db.String(500))
 	img_ext = db.Column(db.String(10))
 	password = db.Column(db.String(500))
-	pinned = db.Column(db.Integer)  #is it pinned or not? 
+	pinned = db.Column(db.Integer)  #is it pinned or not?
 
 class Post(db.Model):
 	uni = db.Column(db.String(100), primary_key=True)
@@ -126,7 +126,7 @@ def green(text , board):
 	link_=False
 	link=""
 	res=""
-	
+
 	while i<len(text):
 		if text[i]==">":
 			if i==len(text)-1:
@@ -138,15 +138,15 @@ def green(text , board):
 
 
 			try:
-				
+
 				if text[i-1]==">" and  not green_text:
 					link_=True
 					#link+=text[i]
-				
+
 				elif text[i+1]!=">" and not green_text:
 					green_text=True
 					res+='<font color="green">'+"&gt;"
-				
+
 				else:
 					if text[i+1]!=">" and i==len(text)-1:
 						res+="&gt;"
@@ -194,7 +194,7 @@ def green(text , board):
 		elif text[i] == "&":
 			res+="&amp;"
 		elif i == len(text)-1:
-			
+
 			if green_text:
 				green_text=False
 				res+=text[i]+"</font>"
@@ -276,7 +276,7 @@ def random_banner():
 
 def log(board , post , ip):
 	if os.path.exists("log.txt"):
-		a = open(basedir+"log.txt", "a")
+		a = open(basedir+"/log.txt", "a")
 	else:
 		a = open(basedir+"/log.txt" , "w")
 	a.write(str(board)+" " + str(post) +" "+ str(ip) +"\n")
@@ -362,6 +362,11 @@ def serve_banner(p):
 	return send_from_directory(basedir + "/static/banners", p)
 	#return "yay"
 
+@app.route("/_scripts/<path:p>")
+@app.route("/_scripts/<path:p>/")
+def serve_scripts(p):
+	return send_from_directory(basedir + "/static/scripts", p)
+
 
 @app.route("/_ct_", methods=["GET" , "POST"])
 @app.route("/_ct_/", methods=["GET" , "POST"])
@@ -441,16 +446,20 @@ def board_home(board):
 			exists = True
 			bo = b
 
-	if request.method == "POST" and not is_banned(request.remote_addr):
-	#if request.method == "POST" and not is_banned(request.headers['X-Real-IP']):
+	ip=""
+	if "X-Real-IP" in request.headers:
+		ip = request.headers['X-Real-IP']
+	else:
+		ip = request.remote_addr
+
+	if request.method == "POST" and not is_banned(ip):
 		#print(request.files)
 		#if request.form["body"]=="":
 		#	return redirect(url_for("index"))
 		f = None
 		if bo:
 			t = None
-			log(board , bo.last_id + 1 , request.remote_addr)
-			#log(board , bo.last_id + 1 , request.headers['X-Real-IP']) #for cloud based servers
+			log(board , bo.last_id + 1 , ip)
 			if "file" in request.files:
 				file = request.files["file"]
 				file_name = secure_filename(file.filename)
@@ -550,15 +559,19 @@ def board_thread(board , thread_id):
 	bo = Boards.query.filter_by(name=board).all()[0]
 	#except:
 	#	thread = None
+	ip=""
+	if "X-Real-IP" in request.headers:
+		ip = request.headers['X-Real-IP']
+	else:
+		ip = request.remote_addr
 
-	if request.method == "POST" and not is_banned(request.remote_addr):
-	#if request.method == "POST" and not is_banned(request.headers['X-Real-IP']):
+	if request.method == "POST" and not is_banned(request.headers['X-Real-IP']):
 		#print(request.files)
-		
+		#if request.form["body"]=="":
+		#	return redirect(url_for("index"))
 		f = None
 		if thread:
-			log(board , bo.last_id + 1 , request.remote_addr)
-			#log(board , bo.last_id + 1 , request.headers['X-Real-IP']) #for cloud based servers
+			log(board , bo.last_id + 1 ,ip)
 			if "file" in request.files:
 				file = request.files["file"]
 				file_name = secure_filename(file.filename)
@@ -567,7 +580,6 @@ def board_thread(board , thread_id):
 				if not allowed(file_name)[0]:
 					if request.form["body"]=="":
 						return redirect(url_for("index"))
-
 				if allowed(file_name)[0]:
 					if allowed(file_name)[1] == "gif":
 						med = Media.query.filter_by(board=board).all()[0]
