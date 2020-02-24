@@ -295,6 +295,19 @@ def is_banned(ip):
 		if ip.startswith(i):
 			return 1
 	return 0
+
+def boards_list():
+	board_list = []
+	for b in Boards.query.all():
+		board_list.append("<a href="+url_for("board_home",board=b.name)+">" + b.name + "</a>")
+	string = "[ "
+	for b in board_list:
+		string+=b+" / "
+	if string!="[ ":
+		string = string[0:len(string)-2]
+	string+="]"
+	return string
+
 #db.create_all()
 
 
@@ -539,12 +552,12 @@ def board_home(board):
 			db.session.add(t)
 			db.session.commit()
 
-			return render_template("board.html" ,len=len,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,bo=bo, gen=gen , Post = Post, board = board , desc = bo.desc , threads = Thread.query.filter_by(board=board).order_by(desc(Thread.bumptime)).all())
+			return render_template("board.html" ,board_list=boards_list,len=len,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,bo=bo, gen=gen , Post = Post, board = board , desc = bo.desc , threads = Thread.query.filter_by(board=board).order_by(desc(Thread.bumptime)).all())
 
 	if bo:
-		return render_template("board.html" ,len=len,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,bo=bo,gen=gen ,Post = Post, board = board , desc = bo.desc , threads = Thread.query.filter_by(board=board).order_by(desc(Thread.bumptime)).all())
+		return render_template("board.html" ,board_list=boards_list,len=len,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,bo=bo,gen=gen ,Post = Post, board = board , desc = bo.desc , threads = Thread.query.filter_by(board=board).order_by(desc(Thread.bumptime)).all())
 	else:
-		return "e404"
+		return "There exists no board like that" , 404
 
 @app.route("/<board>/<int:thread_id>/" , methods=["GET" , "POST"])
 @app.route("/<board>/<int:thread_id>", methods=["GET" , "POST"])
@@ -565,7 +578,7 @@ def board_thread(board , thread_id):
 	else:
 		ip = request.remote_addr
 
-	if request.method == "POST" and not is_banned(request.headers['X-Real-IP']):
+	if request.method == "POST" and not is_banned(ip):
 		#print(request.files)
 		#if request.form["body"]=="":
 		#	return redirect(url_for("index"))
@@ -668,12 +681,22 @@ def board_thread(board , thread_id):
 			#print(bo.last_id)
 			db.session.add(p)
 			db.session.commit()
-			return render_template("thread.html" ,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,gen=gen , board = board , thread_id = thread_id , thread=thread, posts = Post.query.filter_by(board=board).filter_by(thread_id = thread_id).order_by(asc(Post.timestamp)).all())
+			reply = request.args.get('r')
+			if not reply:
+				reply=""
+			else:
+				reply = ">>"+reply+" "
+			return render_template("thread.html" ,board_list=boards_list, reply=reply,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,gen=gen , board = board , thread_id = thread_id , thread=thread, posts = Post.query.filter_by(board=board).filter_by(thread_id = thread_id).order_by(asc(Post.timestamp)).all())
 
 	if thread:
-		return render_template("thread.html" ,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,gen=gen , board = board , thread_id = thread_id , thread=thread, posts = Post.query.filter_by(board=board).filter_by(thread_id = thread_id).order_by(asc(Post.timestamp)).all())
+		reply = request.args.get('r')
+		if not reply:
+			reply=""
+		else:
+			reply = ">>"+reply+" "
+		return render_template("thread.html" ,board_list=boards_list,reply=reply,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,gen=gen , board = board , thread_id = thread_id , thread=thread, posts = Post.query.filter_by(board=board).filter_by(thread_id = thread_id).order_by(asc(Post.timestamp)).all())
 	else:
-		return "e404"
+		return "There exists no thread like that" , 404
 
 
 

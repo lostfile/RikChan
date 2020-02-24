@@ -1,12 +1,13 @@
 <title>/{{board}}/ - RikChan</title><body style="background-color:#FFFFF0" text=#800000>
-<center><img style="width:50%;" src=/_banner/{{random()}}></center><hr>
+<center>{{board_list() | safe}}</center><hr>
+<center></br><img style="width:50%;" src=/_banner/{{random()}}></center><hr>
 <form action = "/{{board}}/{{thread_id}}/" method = "post" enctype=multipart/form-data>
          <body>
           <center>
         <h1>/{{board}}/</h1>
          <p><input type = "text" name = "name" placeholder="name" size=50 value="{{anon}}"/></p>
          <p><input type = "text" name = "options" placeholder="options" size=50/></p>
-         <textarea id="body" rows="4" cols="50" placeholder="body" name="body"></textarea>
+         <textarea id="body" rows="4" cols="50" placeholder="body" name="body">{{reply}}</textarea>
 
          <p><input type = "password" name = "password" placeholder="password" size=50 value="{{gen(5)}}"/></p>
             <input type="file" name="file">
@@ -35,6 +36,12 @@
 
 
     }
+
+    function addText(event) {
+      var targ = event.target || event.srcElement;
+      document.getElementById("body").value += ">>"+ (targ.textContent || targ.innerText) + " ";
+    }
+
 </script>
 
 
@@ -63,7 +70,7 @@
 
         <span class="left"><input type="checkbox" name="{{thread.id}}" value="THREAD"></span>
 
-          {{thread.name}} {{thread.timestamp.strftime("%m/%d/%Y, %H:%M:%S")}} No.{{thread.id}}<font size="2">
+          {{thread.name}} {{thread.timestamp.strftime("%m/%d/%Y, %H:%M:%S")}} No.<a onclick="addText(event)" href="javascript:;">{{thread.id}}</a><font size="2">
           {%for a in refer.query.filter_by(board=board).filter_by(replied_to=thread.id).all()%}
           &nbsp;<a href="{{url_maker(a.own_id , board)}}">>>{{a.own_id}}</a>
         {%endfor%}
@@ -89,7 +96,7 @@
 
           <span class="left"><input type="checkbox" name="{{p.id}}" value="POST"></span>
 
-          <span class="left">{{p.name}} {{p.timestamp.strftime("%m/%d/%Y, %H:%M:%S")}} No.{{p.id}}</span> <font size="2">
+          <span class="left">{{p.name}} {{p.timestamp.strftime("%m/%d/%Y, %H:%M:%S")}} No.<a onclick="addText(event)" href="javascript:;">{{p.id}}</a></span> <font size="2">
           {%for a in refer.query.filter_by(board=board).filter_by(replied_to=p.id).all()%}
           &nbsp;<a href="{{url_maker(a.own_id , board)}}">>>{{a.own_id}}</a>
 
