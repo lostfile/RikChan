@@ -28,6 +28,8 @@ app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 
 db = SQLAlchemy(app)
 
+
+
 def gen(N):
 	return ''.join(secrets.choice(string.ascii_uppercase + string.digits) for i in range(N))
 
@@ -45,6 +47,7 @@ class Thread(db.Model):
 	img_ext = db.Column(db.String(10))
 	password = db.Column(db.String(500))
 	pinned = db.Column(db.Integer)  #is it pinned or not?
+	subject = db.Column(db.String(100))
 
 class Post(db.Model):
 	uni = db.Column(db.String(100), primary_key=True)
@@ -469,6 +472,7 @@ def board_home(board):
 		#print(request.files)
 		#if request.form["body"]=="":
 		#	return redirect(url_for("index"))
+		print(request.form["subject"])
 		f = None
 		if bo:
 			t = None
@@ -516,7 +520,7 @@ def board_home(board):
 			if not f:
 				session["name"]=request.form["name"]
 				reply_finder(request.form["body"] , bo.last_id+1 , board)
-				t = Thread(uni = bo.name + str(bo.last_id+1),id = bo.last_id+1 , name = trip(request.form["name"]) , body=request.form["body"] , password = enc(request.form["password"]), board = board)
+				t = Thread(uni = bo.name + str(bo.last_id+1),subject=request.form["subject"],id = bo.last_id+1 , name = trip(request.form["name"]) , body=request.form["body"] , password = enc(request.form["password"]), board = board)
 			else:
 				#print(f , "f")
 				session["name"]=request.form["name"]
@@ -524,22 +528,22 @@ def board_home(board):
 				file_name = secure_filename(file.filename)
 				reply_finder(request.form["body"] , bo.last_id+1 , board)
 				if f == "gif":
-					t = Thread(img_ext = f , img_num = med.gif, img_name=file_name, uni = bo.name + str(bo.last_id+1),id=bo.last_id + 1, name=trip(request.form["name"]), body=request.form["body"],
+					t = Thread(img_ext = f ,subject=request.form["subject"], img_num = med.gif, img_name=file_name, uni = bo.name + str(bo.last_id+1),id=bo.last_id + 1, name=trip(request.form["name"]), body=request.form["body"],
 							   password=enc(request.form["password"]), board=board)
 				elif f == "jpg":
-					t = Thread(img_ext=f, img_num=med.jpg,uni = bo.name + str(bo.last_id+1), img_name=file_name, id=bo.last_id + 1,
+					t = Thread(img_ext=f,subject=request.form["subject"], img_num=med.jpg,uni = bo.name + str(bo.last_id+1), img_name=file_name, id=bo.last_id + 1,
 							   name=trip(request.form["name"]), body=request.form["body"],
 							   password=enc(request.form["password"]), board=board)
 				elif f == "jpeg":
-					t = Thread(img_ext=f, img_num=med.jpeg, uni = bo.name + str(bo.last_id+1), img_name=file_name, id=bo.last_id + 1,
+					t = Thread(img_ext=f,subject=request.form["subject"], img_num=med.jpeg, uni = bo.name + str(bo.last_id+1), img_name=file_name, id=bo.last_id + 1,
 							   name=trip(request.form["name"]), body=request.form["body"],
 							   password=enc(request.form["password"]), board=board)
 				elif f == "png":
-					t = Thread(img_ext=f, img_num=med.png, uni = bo.name + str(bo.last_id+1), img_name=file_name, id=bo.last_id + 1,
+					t = Thread(img_ext=f,subject=request.form["subject"], img_num=med.png, uni = bo.name + str(bo.last_id+1), img_name=file_name, id=bo.last_id + 1,
 							   name=trip(request.form["name"]), body=request.form["body"],
 							   password=enc(request.form["password"]), board=board)
 				elif f == "webm":
-					t = Thread(img_ext=f, img_num=med.webm ,uni = bo.name + str(bo.last_id+1), img_name=file_name, id=bo.last_id + 1,
+					t = Thread(img_ext=f,subject=request.form["subject"], img_num=med.webm ,uni = bo.name + str(bo.last_id+1), img_name=file_name, id=bo.last_id + 1,
 							   name=trip(request.form["name"]), body=request.form["body"],
 							   password=enc(request.form["password"]), board=board)
 

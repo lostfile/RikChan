@@ -67,15 +67,24 @@
 
 
   <div class="transboxx">
+      {%if "#" not in thread.name%}
 
         <span class="left"><input type="checkbox" name="{{thread.id}}" value="THREAD"></span>
 
-          {{thread.name}} {{thread.timestamp.strftime("%m/%d/%Y, %H:%M:%S")}} No.<a onclick="addText(event)" href="javascript:;">{{thread.id}}</a><font size="2">
+          <b><font color="red">{{thread.subject}}</font></b> <b><font color="green">{{thread.name}}</font></b> {{thread.timestamp.strftime("%m/%d/%Y, %H:%M:%S")}} No.<a onclick="addText(event)" href="javascript:;">{{thread.id}}</a><font size="2">
           {%for a in refer.query.filter_by(board=board).filter_by(replied_to=thread.id).all()%}
           &nbsp;<a href="{{url_maker(a.own_id , board)}}">>>{{a.own_id}}</a>
         {%endfor%}
       </font>
+      {%else%}
+        <span class="left"><input type="checkbox" name="{{thread.id}}" value="THREAD"></span>
 
+          <b><font color="red">{{thread.subject}}</font></b> <b><font color="purple">{{thread.name}}</font></b> {{thread.timestamp.strftime("%m/%d/%Y, %H:%M:%S")}} No.<a onclick="addText(event)" href="javascript:;">{{thread.id}}</a><font size="2">
+          {%for a in refer.query.filter_by(board=board).filter_by(replied_to=thread.id).all()%}
+          &nbsp;<a href="{{url_maker(a.own_id , board)}}">>>{{a.own_id}}</a>
+        {%endfor%}
+      </font>
+      {%endif%}
         </br>
         <p>{{green(thread.body , board) | safe}}</br></p>
 
@@ -93,17 +102,28 @@
   <div class="transbox">
       <section id="{{p.id}}">
 
+        {% if "#" not in p.name %}
 
           <span class="left"><input type="checkbox" name="{{p.id}}" value="POST"></span>
 
-          <span class="left">{{p.name}} {{p.timestamp.strftime("%m/%d/%Y, %H:%M:%S")}} No.<a onclick="addText(event)" href="javascript:;">{{p.id}}</a></span> <font size="2">
+          <span class="left"><b><font color="green">{{p.name}}</font></b> {{p.timestamp.strftime("%m/%d/%Y, %H:%M:%S")}} No.<a onclick="addText(event)" href="javascript:;">{{p.id}}</a></span> <font size="2">
           {%for a in refer.query.filter_by(board=board).filter_by(replied_to=p.id).all()%}
           &nbsp;<a href="{{url_maker(a.own_id , board)}}">>>{{a.own_id}}</a>
 
         {%endfor%}
 
       </font>
+      {%else%}
+          <span class="left"><input type="checkbox" name="{{p.id}}" value="POST"></span>
 
+          <span class="left"><b><font color="purple">{{p.name}}</font></b> {{p.timestamp.strftime("%m/%d/%Y, %H:%M:%S")}} No.<a onclick="addText(event)" href="javascript:;">{{p.id}}</a></span> <font size="2">
+          {%for a in refer.query.filter_by(board=board).filter_by(replied_to=p.id).all()%}
+          &nbsp;<a href="{{url_maker(a.own_id , board)}}">>>{{a.own_id}}</a>
+
+        {%endfor%}
+
+      </font>
+      {%endif%}
 
         </br>
         <p>
