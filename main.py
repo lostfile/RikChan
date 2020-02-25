@@ -241,11 +241,11 @@ def reply_finder(text , id , board):
 		i+=1
 	#print("LINKS" , links)
 	for stuff in links:
-		try:
-			#print(board+" "+str(id)+" "+stuff)
-			db.session.add(refer(uni=board+" "+str(id)+" "+stuff , board = board , replied_to = int(stuff) , own_id = id))
+		#db.session.add(refer(uni=board+" "+str(id)+" "+stuff.strip() , board = board , replied_to = int(stuff) , own_id = id))
+		if not refer.query.filter_by(uni=board+" "+str(id)+" "+stuff.strip()).filter_by(board=board):
+			db.session.add(refer(uni=board+" "+str(id)+" "+stuff.strip() , board = board , replied_to = int(stuff) , own_id = id))
 			db.session.commit()
-		except:
+		else:
 			pass
 
 def url_maker(number , board):
