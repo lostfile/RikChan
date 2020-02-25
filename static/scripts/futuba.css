@@ -17,7 +17,7 @@ div.transbox {
   min-width: 50%;
      /* For IE8 and earlier */
 
-
+     padding: 7px;
     display: inline;
     display: inline-block;
 }

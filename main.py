@@ -162,12 +162,14 @@ def green(text , board):
 				link_=False
 				#print("LINK" , link)
 				try:
-					res+="<a href=\""+url_maker(link , board)+"\">"+"&gt;&gt;"+link+"</a>&nbsp;"
+					#res+="<a href=\""+url_maker(link , board)+"\">"+"&gt;&gt;"+link+"</a>&nbsp;"
+					res+="<a href=\""+url_maker(link , board)+"\">"+"&gt;&gt;"+link+"</a> "
 				except:
 					pass
 				link=""
 			else:
-				res+="&nbsp;"
+				#res+="&nbsp;"
+				res+=" "
 		elif text[i]=="\n":
 			if link_:
 				link_=False
