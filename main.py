@@ -242,7 +242,7 @@ def reply_finder(text , id , board):
 	#print("LINKS" , links)
 	for stuff in links:
 		#db.session.add(refer(uni=board+" "+str(id)+" "+stuff.strip() , board = board , replied_to = int(stuff) , own_id = id))
-		if not refer.query.filter_by(uni=board+" "+str(id)+" "+stuff.strip()).filter_by(board=board):
+		if not refer.query.filter_by(uni=board+" "+str(id)+" "+stuff.strip()).filter_by(board=board).all():
 			db.session.add(refer(uni=board+" "+str(id)+" "+stuff.strip() , board = board , replied_to = int(stuff) , own_id = id))
 			db.session.commit()
 		else:
