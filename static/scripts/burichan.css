@@ -7,7 +7,7 @@
 }
 
 div.transbox {
-  background-color:#F1E0D7 ;
+  background-color:#C4C2EE ;
 
   overflow-wrap: break-word;
 
@@ -21,7 +21,7 @@ div.transbox {
 }
 
 div.transboxx {
-  background-color: #FFFFF0;
+  background-color: #EEF2FF;
 
   overflow-wrap: break-word;
 
@@ -30,7 +30,7 @@ div.transboxx {
 }
 
 div.one{
-background-color: #FFFFF0;
+background-color: #EEF2FF;
   width: 100%;
   overflow-wrap: break-word;
   display: inline;
@@ -50,6 +50,6 @@ video {
 }
 
 body{
-  background-color: #FFFFF0;
-  color: #800000;
+  background: #EEF2FF;
+  color: #000;
 }

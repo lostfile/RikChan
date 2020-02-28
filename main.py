@@ -29,7 +29,6 @@ app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 db = SQLAlchemy(app)
 
 
-
 def gen(N):
 	return ''.join(secrets.choice(string.ascii_uppercase + string.digits) for i in range(N))
 
@@ -70,6 +69,7 @@ class Boards(db.Model):
 	last_id = db.Column(db.Integer , default = 0) #to generate new id
 	max_posts_displayed = db.Column(db.Integer , default = 2) #maximum number of posts displayed under a thread when browsing /board
 	bump_limit = db.Column(db.Integer , default = 500)
+	theme = db.Column(db.String(100) , default = "futaba.css")
 
 class User(db.Model):
 	username = db.Column(db.String(50), primary_key=True)
@@ -312,6 +312,13 @@ def boards_list():
 		string = string[0:len(string)-2]
 	string+="]"
 	return string
+
+def themes():
+	theme = []
+	for i in os.listdir(basedir+"/static/scripts"):
+		if i.endswith(".css"):
+			theme.append(i)
+	return theme
 
 #db.create_all()
 
@@ -558,10 +565,10 @@ def board_home(board):
 			db.session.add(t)
 			db.session.commit()
 
-			return render_template("board.html" ,board_list=boards_list,len=len,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,bo=bo, gen=gen , Post = Post, board = board , desc = bo.desc , threads = Thread.query.filter_by(board=board).order_by(desc(Thread.bumptime)).all())
+			return render_template("board.html" ,theme=bo.theme,themes=themes,board_list=boards_list,len=len,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,bo=bo, gen=gen , Post = Post, board = board , desc = bo.desc , threads = Thread.query.filter_by(board=board).order_by(desc(Thread.bumptime)).all())
 
 	if bo:
-		return render_template("board.html" ,board_list=boards_list,len=len,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,bo=bo,gen=gen ,Post = Post, board = board , desc = bo.desc , threads = Thread.query.filter_by(board=board).order_by(desc(Thread.bumptime)).all())
+		return render_template("board.html" ,theme=bo.theme,themes=themes,board_list=boards_list,len=len,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,bo=bo,gen=gen ,Post = Post, board = board , desc = bo.desc , threads = Thread.query.filter_by(board=board).order_by(desc(Thread.bumptime)).all())
 	else:
 		return "There exists no board like that" , 404
 
@@ -692,7 +699,7 @@ def board_thread(board , thread_id):
 				reply=""
 			else:
 				reply = ">>"+reply+" "
-			return render_template("thread.html" ,board_list=boards_list, reply=reply,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,gen=gen , board = board , thread_id = thread_id , thread=thread, posts = Post.query.filter_by(board=board).filter_by(thread_id = thread_id).order_by(asc(Post.timestamp)).all())
+			return render_template("thread.html" ,theme=bo.theme,themes=themes,board_list=boards_list, reply=reply,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,gen=gen , board = board , thread_id = thread_id , thread=thread, posts = Post.query.filter_by(board=board).filter_by(thread_id = thread_id).order_by(asc(Post.timestamp)).all())
 
 	if thread:
 		reply = request.args.get('r')
@@ -700,7 +707,7 @@ def board_thread(board , thread_id):
 			reply=""
 		else:
 			reply = ">>"+reply+" "
-		return render_template("thread.html" ,board_list=boards_list,reply=reply,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,gen=gen , board = board , thread_id = thread_id , thread=thread, posts = Post.query.filter_by(board=board).filter_by(thread_id = thread_id).order_by(asc(Post.timestamp)).all())
+		return render_template("thread.html" ,theme=bo.theme,themes=themes,board_list=boards_list,reply=reply,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,gen=gen , board = board , thread_id = thread_id , thread=thread, posts = Post.query.filter_by(board=board).filter_by(thread_id = thread_id).order_by(asc(Post.timestamp)).all())
 	else:
 		return "There exists no thread like that" , 404
 

@@ -1,4 +1,57 @@
-<title>/{{board}}/ - RikChan</title><body style="background-color:#FFFFF0" text=#800000>
+
+<script type="text/javascript">
+function load_css(css_file){
+  var fileref=document.createElement("link")
+  fileref.setAttribute("rel", "stylesheet")
+  fileref.setAttribute("type", "text/css")
+  fileref.setAttribute("href", css_file)
+  document.getElementsByTagName("head")[0].appendChild(fileref)
+
+}
+function load(){
+  var e = document.getElementById("theme");
+  var theme = e.options[e.selectedIndex].value;
+  load_css(theme);
+  localStorage.setItem("theme", theme);
+  //alert(localStorage.getItem("{{board}}"))
+}
+
+function get_theme(){
+  if(localStorage.getItem("theme")){
+    return localStorage.getItem("theme");
+  }
+  else{
+    return "/_scripts/{{theme}}"
+  }
+
+}
+//load_css("/_scripts/test3.css")
+load_css(get_theme());
+</script>
+<label for="theme">Theme: </label>
+<select id="theme" onchange="load()">
+  {%for i in themes()%}
+  <option value="/_scripts/{{i}}">{{i[0:len(i)-4]}}</option>
+  {%endfor%}
+  
+
+</select>
+<script type="text/javascript">
+  function set(s, v) {
+    for ( var i = 0; i < s.options.length; i++ ) {    
+        if ( s.options[i].value == v ) {
+            s.options[i].selected = true;
+            return;
+        }
+    }
+}
+
+set(document.getElementById('theme'),get_theme());
+</script>
+
+
+
+<title>/{{board}}/ - RikChan</title><body>
 <center>{{board_list() | safe}}</center><hr>
 <center></br><img style="width:50%;" src=/_banner/{{random()}}></center><hr>
 <form action = "/{{board}}/{{thread_id}}/" method = "post" enctype=multipart/form-data>
@@ -24,7 +77,7 @@
 <a href = {{url_for("board_home" , board=board)}}> <font> <center> Go back to {{board}} </center> </font> </a>
 </br>
 
- <link rel="stylesheet" type="text/css" href="/_scripts/futaba.css">
+
 
 
 
