@@ -118,13 +118,13 @@ set(document.getElementById('theme'),get_theme());
           <span class="left"><input type="checkbox" name="{{t.id}}" value="THREAD"></span>
 
     {%if "#" not in t.name%}
-          <b><font color="red">{{t.subject}}</font></b> <b><font color="green">{{t.name}}</font></b> {{t.timestamp.strftime("%m/%d/%Y, %H:%M:%S")}} No.<a href="/{{board}}/{{t.id}}?r={{t.id}}">{{t.id}}</a> [<a href="/{{board}}/{{t.id}}">Reply</a>]<font size="2">
+          <b><font color="red">{{t.subject}}</font></b> <b><font color="green">{{t.name}}</font></b> {{t.timestamp.strftime("%m/%d/%Y, %H:%M:%S")}} No.<a href="/{{board}}/{{t.id}}?r={{t.id}}">{{t.id}}</a> [<a href="/{{board}}/{{t.id}}">Reply</a>] ▷<font size="2">
         {%for a in refer.query.filter_by(board=board).filter_by(replied_to=t.id).all()%}
           &nbsp;<a href="{{url_maker(a.own_id , board)}}">>>{{a.own_id}}</a>
         {%endfor%}
       </font>
     {%else%}
-          <b><font color="red">{{t.subject}}</font></b> <b><font color="purple">{{t.name}}</font></b> {{t.timestamp.strftime("%m/%d/%Y, %H:%M:%S")}} No.<a href="/{{board}}/{{t.id}}?r={{t.id}}">{{t.id}}</a> [<a href="/{{board}}/{{t.id}}">Reply</a>]<font size="2">
+          <b><font color="red">{{t.subject}}</font></b> <b><font color="purple">{{t.name}}</font></b> {{t.timestamp.strftime("%m/%d/%Y, %H:%M:%S")}} No.<a href="/{{board}}/{{t.id}}?r={{t.id}}">{{t.id}}</a> [<a href="/{{board}}/{{t.id}}">Reply</a>] ▷<font size="2">
         {%for a in refer.query.filter_by(board=board).filter_by(replied_to=t.id).all()%}
           &nbsp;<a href="{{url_maker(a.own_id , board)}}">>>{{a.own_id}}</a>
         {%endfor%}
@@ -159,7 +159,7 @@ set(document.getElementById('theme'),get_theme());
     {% if "#" not in p.name %}
           <span class="left"><input type="checkbox" name="{{p.id}}" value="POST"></span>
 
-          <span class="left"><b><font color="green">{{p.name}}</font></b> {{p.timestamp.strftime("%m/%d/%Y, %H:%M:%S")}} No.<a href="/{{board}}/{{t.id}}?r={{p.id}}">{{p.id}}</a></span> <font size="2">
+          <b><font color="green">{{p.name}}</font></b> {{p.timestamp.strftime("%m/%d/%Y, %H:%M:%S")}} No.<a href="/{{board}}/{{t.id}}?r={{p.id}}">{{p.id}}</a>▷<font size="2">
           {%for a in refer.query.filter_by(board=board).filter_by(replied_to=p.id).all()%}
           &nbsp;<a href="{{url_maker(a.own_id , board)}}">>>{{a.own_id}}</a>
 
@@ -169,7 +169,7 @@ set(document.getElementById('theme'),get_theme());
     {%else%}
           <span class="left"><input type="checkbox" name="{{p.id}}" value="POST"></span>
 
-          <span class="left"><b><font color="purple">{{p.name}}</font></b> {{p.timestamp.strftime("%m/%d/%Y, %H:%M:%S")}} No.<a href="/{{board}}/{{t.id}}?r={{p.id}}">{{p.id}}</a></span> <font size="2">
+          <b><font color="purple">{{p.name}}</font></b> {{p.timestamp.strftime("%m/%d/%Y, %H:%M:%S")}} No.<a href="/{{board}}/{{t.id}}?r={{p.id}}">{{p.id}}</a>▷<font size="2">
           {%for a in refer.query.filter_by(board=board).filter_by(replied_to=p.id).all()%}
           &nbsp;<a href="{{url_maker(a.own_id , board)}}">>>{{a.own_id}}</a>
 

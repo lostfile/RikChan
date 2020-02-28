@@ -699,7 +699,7 @@ def board_thread(board , thread_id):
 				reply=""
 			else:
 				reply = ">>"+reply+" "
-			return render_template("thread.html" ,theme=bo.theme,themes=themes,board_list=boards_list, reply=reply,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,gen=gen , board = board , thread_id = thread_id , thread=thread, posts = Post.query.filter_by(board=board).filter_by(thread_id = thread_id).order_by(asc(Post.timestamp)).all())
+			return render_template("thread.html" ,len=len,theme=bo.theme,themes=themes,board_list=boards_list, reply=reply,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,gen=gen , board = board , thread_id = thread_id , thread=thread, posts = Post.query.filter_by(board=board).filter_by(thread_id = thread_id).order_by(asc(Post.timestamp)).all())
 
 	if thread:
 		reply = request.args.get('r')
@@ -707,7 +707,7 @@ def board_thread(board , thread_id):
 			reply=""
 		else:
 			reply = ">>"+reply+" "
-		return render_template("thread.html" ,theme=bo.theme,themes=themes,board_list=boards_list,reply=reply,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,gen=gen , board = board , thread_id = thread_id , thread=thread, posts = Post.query.filter_by(board=board).filter_by(thread_id = thread_id).order_by(asc(Post.timestamp)).all())
+		return render_template("thread.html" ,len=len,theme=bo.theme,themes=themes,board_list=boards_list,reply=reply,random=random_banner,green=green,url_maker=url_maker,anon=session["name"],refer=refer,gen=gen , board = board , thread_id = thread_id , thread=thread, posts = Post.query.filter_by(board=board).filter_by(thread_id = thread_id).order_by(asc(Post.timestamp)).all())
 	else:
 		return "There exists no thread like that" , 404
 
