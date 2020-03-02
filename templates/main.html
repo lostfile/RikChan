@@ -1,10 +1,34 @@
+<head>
 <title>RikChan</title>
-<center>
-  <h1>RikChan</h1>
-<body style="background-color:#FFFFF0">
-Active Boards</br>
-{{boards | safe}}
-</br></br>For rules go to <a href="/rules">Rules</a></br>
-<a href="https://www.github.com/hrik2001/RikChan">RikChan</a></br>
+</head>
+<link rel="stylesheet" type="text/css" href="/_scripts/futaba.css"></link>
+<style>
+    .centered {
+  //position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+}
 
-</center></body>
+h1 {
+  font-size: 5.9vmax;
+  word-wrap:normal;
+}
+
+p {
+  font-size: 2vmax;
+}
+</style>
+<body>
+<center>
+<span class="centered"><div class="transbox">
+<h1>RikChan</h1>
+<p>Active Boards</br>
+{{boards | safe}}</br></br>
+For rules go to <a href="/rules">Rules</a></br>
+<a href="https://www.github.com/hrik2001/RikChan">RikChan</a></br>
+</center></p>
+<div></span>
+</br></br>
+</body>
