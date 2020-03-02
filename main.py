@@ -392,6 +392,11 @@ def serve_banner(p):
 def serve_scripts(p):
 	return send_from_directory(basedir + "/static/scripts", p)
 
+@app.route("/favicon.ico")
+@app.route("/favicon.ico/")
+def favicon():
+	return send_from_directory(basedir , "favicon.ico")
+
 
 @app.route("/_ct_", methods=["GET" , "POST"])
 @app.route("/_ct_/", methods=["GET" , "POST"])
