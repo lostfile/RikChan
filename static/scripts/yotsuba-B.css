@@ -1,0 +1,56 @@
+
+.right{
+    float:right;
+}
+.left{
+    float:left;
+}
+
+div.transbox {
+  background-color:#C4C2EE ;
+
+  overflow-wrap: break-word;
+
+  max-width: 80%;
+  min-width: 50%;
+     /* For IE8 and earlier */
+
+     padding: 7px;
+    display: inline;
+    display: inline-block;
+}
+
+div.transboxx {
+  background-color: #EEF2FF;
+
+  overflow-wrap: break-word;
+
+
+  /* For IE8 and earlier */
+}
+
+div.one{
+background-color: #EEF2FF;
+  width: 100%;
+  overflow-wrap: break-word;
+  display: inline;
+    display: inline-block;
+
+}
+
+img {
+    width:150px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    height:auto;
+    }
+video {
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+
+body{
+  background: #EEF2FF;
+  color: #000;
+  font-family: Arial, Helvetica, sans-serif;
+}
