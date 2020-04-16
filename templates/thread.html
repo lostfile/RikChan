@@ -34,12 +34,12 @@ load_css(get_theme());
   {%for i in themes()%}
   <option value="/_scripts/{{i}}">{{i[0:len(i)-4]}}</option>
   {%endfor%}
-  
+
 
 </select>
 <script type="text/javascript">
   function set(s, v) {
-    for ( var i = 0; i < s.options.length; i++ ) {    
+    for ( var i = 0; i < s.options.length; i++ ) {
         if ( s.options[i].value == v ) {
             s.options[i].selected = true;
             return;
@@ -54,18 +54,17 @@ set(document.getElementById('theme'),get_theme());
 
 <title>/{{board}}/ - RikChan</title><body>
 <center>{{board_list() | safe}}</center><hr>
-<center></br><img style="width:50%;" src=/_banner/{{random()}}></center><hr>
+<center></br><img style="max-width:50vw; width:450px;" src=/_banner/{{random()}}></center><hr>
 <form action = "/{{board}}/{{thread_id}}/" method = "post" enctype=multipart/form-data>
          <body>
           <center>
         <h1>/{{board}}/</h1>
-         <p><input type = "text" name = "name" placeholder="name" size=50 value="{{anon}}"/></p>
-         <p><input type = "text" name = "options" placeholder="options" size=50/></p>
-         <textarea id="body" rows="4" cols="50" placeholder="body" name="body">{{reply}}</textarea>
-
-         <p><input type = "password" name = "password" placeholder="password" size=50 value="{{gen(5)}}"/></p>
+         <p><input type = "text" name = "name" placeholder="name" style="width:70%;" value="{{anon}}"/>
+         <br><input type = "text" name = "options" placeholder="options" style="width:70%;" /><br>
+         <textarea id="body" rows="4" style="width:70%;" placeholder="body" name="body">{{reply}}</textarea><br>
+         <input type = "password" name = "password" placeholder="password" style="width:70%;" value="{{gen(5)}}"/><br><br>
             <input type="file" name="file">
-         <p1><button class="button"><b>Post</b></p1></button>
+         <p1><button class="button"><b>Post</b></p1></button></p>
       </form>
       </center>
       </br>
