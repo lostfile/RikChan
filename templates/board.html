@@ -34,12 +34,12 @@ load_css(get_theme());
   {%for i in themes()%}
   <option value="/_scripts/{{i}}">{{i[0:len(i)-4]}}</option>
   {%endfor%}
-  
+
 
 </select>
 <script type="text/javascript">
   function set(s, v) {
-    for ( var i = 0; i < s.options.length; i++ ) {    
+    for ( var i = 0; i < s.options.length; i++ ) {
         if ( s.options[i].value == v ) {
             s.options[i].selected = true;
             return;
@@ -55,20 +55,19 @@ set(document.getElementById('theme'),get_theme());
 
 <title>/{{board}}/ - RikChan</title>
 <center>{{board_list() | safe}}</center><hr>
-<center></br><img style="width:50%;" src=/_banner/{{random()}}></center><hr>
+<center></br><img style="max-width:50vw; width:450px;" src=/_banner/{{random()}}></center><hr>
 <form action = "/{{board}}/" method = "post" enctype=multipart/form-data><body>
          <body>
           <center>
         <h1>/{{board}}/</h1>
         <p1>{{desc}}</p1>
-         <p><input type = "text" name = "subject" placeholder="subject" size=50 /></p>
-
-         <p><input type = "text" name = "name" placeholder="name" size=50 value="{{anon}}"/></p>
-         <textarea id="body" rows="4" cols="50" placeholder="body" name="body"></textarea>
-         <p><input type = "password" name = "password" placeholder="password" size=50 value="{{gen(5)}}"/></p>
+         <p><input type = "text" name = "subject" placeholder="subject" style="width: 70%;" /><br>
+         <input type = "text" name = "name" placeholder="name" style="width: 70%;" value="{{anon}}"/><br>
+         <textarea id="body" rows="4" style="width: 70%;" placeholder="body" name="body"></textarea><br>
+         <input type = "password" name = "password" placeholder="password" style="width: 70%;" value="{{gen(5)}}"/><br><br>
          <input type="file" name="file">
 
-         <p1><button class="button" value="upload"><b>Create Thread</b></p1></button>
+         <p1><button class="button" value="upload"><b>Create Thread</b></p1></button></p>
       </form>
     </br></br>
       <font size="2">jpeg , jpg , gif , png and webm below the size of <b>4mb</b> is allowed. Read <a href="/rules">Rules</a> before posting </font>
@@ -81,10 +80,10 @@ set(document.getElementById('theme'),get_theme());
 <script type='text/javascript'>
     function zoomzoom(id) {
 
-    if(document.getElementById(id).style.width=="500px"){document.getElementById(id).style.width="150px";}else{document.getElementById(id).style.width="500px"}
+    if(document.getElementById(id).style.width=="500px"){document.getElementById(id).style.width="250px";}else{document.getElementById(id).style.width="500px"}
 
-    
-    }       
+
+    }
 </script>
 
 <center><a href="/">Go back to Main Page</a></center></br>
@@ -99,14 +98,14 @@ set(document.getElementById('theme'),get_theme());
                 {%if t.img_ext!="webm" %}
                 <a href="../media/{{board}}{{t.img_num}}.{{t.img_ext}}">
                     {{t.img_name}}</a></br>
-                    <span class="left"><img src="../media/{{board}}{{t.img_num}}.{{t.img_ext}}" alt="{{t.img_name}}" id="{{board}}{{t.img_num}}.{{t.img_ext}}" onclick="zoomzoom('{{board}}{{t.img_num}}.{{t.img_ext}}')"></br></span>
+                    <span class="left"><img src="../media/{{board}}{{t.img_num}}.{{t.img_ext}}" alt="{{t.img_name}}" id="{{board}}{{t.img_num}}.{{t.img_ext}}" style="width:250px;" onclick="zoomzoom('{{board}}{{t.img_num}}.{{t.img_ext}}')"></br></span>
                 {%else%}
                 <a href="../media/{{board}}{{t.img_num}}.{{t.img_ext}}">
                     {{t.img_name}}</a></br>
                 <span class="left"><video width="320" height="240" controls>
-  
+
                   <source src="../media/{{board}}{{t.img_num}}.{{t.img_ext}}" type="video/webm">
-  
+
                </video></br></span>
                 {%endif%}
             {%endif%}
@@ -135,26 +134,26 @@ set(document.getElementById('theme'),get_theme());
 
         </br>
              <p>{{green(t.body , board) | safe}}</p>
-           
+
            {%if len(Post.query.filter_by(board=board).filter_by(thread_id = t.id).all()) > bo.max_posts_displayed %}
-           
+
            <font size=2>{{len(Post.query.filter_by(board=board).filter_by(thread_id = t.id).all()) - bo.max_posts_displayed}} reply/replies hidden, click Reply to view all</font>
 
            {%endif%}
-        
-      
+
+
 
 
 
    </div>
 
-  
+
 
 
 
 {%for p in Post.query.filter_by(board=board).filter_by(thread_id = t.id).all()[::-1][0:bo.max_posts_displayed][::-1]%}
 <span class="left">&gt;&gt;</span>
-   
+
   <div class="transbox">
 
     {% if "#" not in p.name %}
@@ -192,20 +191,20 @@ set(document.getElementById('theme'),get_theme());
                     <img src="../media/{{board}}{{p.img_num}}.{{p.img_ext}}" alt="{{p.img_name}}" id="{{board}}{{p.img_num}}.{{p.img_ext}}" onclick="zoomzoom('{{board}}{{p.img_num}}.{{p.img_ext}}')"></br></br>
                 {%else%}
                 <video width="320" height="240" controls>
-  
+
                   <source src="../media/{{board}}{{p.img_num}}.{{p.img_ext}}" type="video/webm">
-  
+
                </video></br></br>
                 {%endif%}
             {%endif%}
 
           {{green(p.body , board) | safe}}</br></p>
-          
 
 
 
 
-  
+
+
    </div>
 </br>
 </br>
